@@ -19,7 +19,11 @@ def entropy_weight(matrix):
     """
     # 计算熵值
     p = matrix / np.sum(matrix, axis=0)
-    entropy = -np.sum(p * np.log(p), axis=0) / np.log(len(matrix))
+#    entropy = -np.sum(p * np.log(p), axis=0) / np.log(len(matrix))
+    # Laplace 平滑
+    epsilon = 1e-9
+    p_smooth = (matrix + epsilon) / (np.sum(matrix, axis=0) + epsilon)
+    entropy = -np.sum(p_smooth * np.log(p_smooth), axis=0) / np.log(len(matrix))
 
     # 计算权重
     weights = (1 - entropy) / np.sum(1 - entropy)
